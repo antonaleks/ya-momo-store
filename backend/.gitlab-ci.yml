@@ -76,4 +76,4 @@ upload-release:
   script:
     - tar czvf momo-store-${VERSION}.tar.gz momo-store-${VERSION}/go-build
     - >
-      curl -v -u "${NEXUS_REPO_USER}:$(echo $NEXUS_REPO_PASS | base64 -d)" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_BACKEND_URL}/momo-store-backend/momo-store/$VERSION/momo-store-back-$VERSION.tar.gz
+      curl -v -u "${NEXUS_REPO_USER}:$(echo $NEXUS_REPO_PASS | base64 -d)" --upload-file momo-store-${VERSION}.tar.gz ${NEXUS_REPO_BACKEND_URL}/momo-store-backend/momo-store/$VERSION/momo-store-back-$VERSION.tar.gz
