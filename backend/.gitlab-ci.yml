@@ -48,6 +48,7 @@ gosec-sast:
     GOPATH: $CI_PROJECT_DIR/backend/.go
   before_script:
     - mkdir -p backend/.go
+    - cd backend
   cache:
     paths:
       - .go/pkg/mod/
