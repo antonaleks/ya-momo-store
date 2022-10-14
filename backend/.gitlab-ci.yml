@@ -44,8 +44,13 @@ compile:
       - $CI_PROJECT_DIR/momo-store-${VERSION}/go-build
 
 gosec-sast:
-  stage: test
-  extends: .go-cache
+  variables:
+    GOPATH: $CI_PROJECT_DIR/backend/.go
+  before_script:
+    - mkdir -p backend/.go
+  cache:
+    paths:
+      - .go/pkg/mod/
 
 sonarqube-backend-sast:
   stage: test
