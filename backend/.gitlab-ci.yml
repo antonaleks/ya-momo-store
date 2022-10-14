@@ -72,7 +72,7 @@ sonarqube-backend-sast:
 upload-release:
   stage: release
   dependencies:
-    - build-code-job
+    - compile
   script:
     - tar czvf momo-store-${VERSION}.tar.gz momo-store-${VERSION}/go-build
     - >
