@@ -43,6 +43,22 @@ compile:
     paths:
       - $CI_PROJECT_DIR/momo-store-${VERSION}/go-build
 
+build-docker-kaniko:
+  stage: build
+  cache: [ ]
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  extends: .docker-registry-auth
+  script:
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/backend"
+      --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
+      --cache-copy-layers
+      --destination "${CI_REGISTRY_IMAGE}/$DOCKER_BACKEND_NAME:${VERSION}"
+      --cache=true
+
 gosec-sast:
   extends: .go-cache
   stage: test
@@ -77,3 +93,16 @@ upload-release:
     - tar czvf momo-store-${VERSION}.tar.gz momo-store-${VERSION}/go-build
     - >
       curl -v -u "${NEXUS_REPO_USER}:$(echo $NEXUS_REPO_PASS | base64 -d)" --upload-file momo-store-${VERSION}.tar.gz ${NEXUS_REPO_BACKEND_URL}/momo-store-backend/momo-store/$VERSION/momo-store-back-$VERSION.tar.gz
+
+upload-docker-latest:
+  variables:
+    GIT_STRATEGY: none
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [ "" ]
+  cache: [ ]
+  stage: release
+  before_script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - crane tag $CI_REGISTRY_IMAGE/$DOCKER_BACKEND_NAME:$VERSION latest
