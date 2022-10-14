@@ -30,8 +30,6 @@ build-code-job:
     paths:
       - $CI_PROJECT_DIR/momo-store-${VERSION}/public_html
 
-
-
 sonarqube-frontend-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
@@ -44,3 +42,12 @@ sonarqube-frontend-sast:
         -Dsonar.host.url=${SONARQUBE_URL} \
         -Dsonar.login=${SONAR_LOGIN} \
         -Dsonar.projectName=${SONAR_PROJECT_NAME_FRONT}
+
+upload-release:
+  stage: release
+  dependencies:
+    - build-code-job
+  script:
+    - tar czvf momo-store-${VERSION}.tar.gz momo-store-${VERSION}/go-build
+    - >
+      curl -v -u "${NEXUS_REPO_USER}:$(echo $NEXUS_REPO_PASS | base64 -d)" --upload-file sausage-store-${VERSION}.tar.gz ${NEXUS_REPO_FRONTEND_URL}/momo-store-frontend/momo-store/$VERSION/momo-store-front-$VERSION.tar.gz
