@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	dumplings "gitlab.praktikum-services.ru/Stasyan/momo-store/internal/store/dumplings"
+	dumplings "gitlab.praktikum-services.ru/anton-alekseyev/momo-store/internal/store/dumplings"
 )
 
 // MockStore is a mock of Store interface.
