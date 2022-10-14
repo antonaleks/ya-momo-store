@@ -1,15 +1,13 @@
 <template>
-  <Navbar />
+  <Navbar/>
   <div class="mt-3 content-wrapper">
     <router-view v-if="$store.state.auth.checked"/>
-    <Center class="h-100" v-else>
-      <Spinner size="8rem" thickness="1.25rem"/>
-    </Center>
+      <Spinner size="8rem" thickness="1.25rem" v-else/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 import Navbar from '@/components/navbar';
 import Spinner from '@/components/misc/Spinner.vue';
@@ -26,16 +24,16 @@ export default defineComponent({
 </script>
 
 <style>
-  html, body, #app {
-    height: 100%;
-  }
+html, body, #app {
+  height: 100%;
+}
 
-  #app {
-    display: flex;
-    flex-direction: column;
-  }
+#app {
+  display: flex;
+  flex-direction: column;
+}
 
-  .content-wrapper {
-    flex: 1;
-  }
+.content-wrapper {
+  flex: 1;
+}
 </style>

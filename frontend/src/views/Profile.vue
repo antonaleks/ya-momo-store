@@ -1,31 +1,29 @@
 <template>
-  <Center class="h-100">
 
-    <div class="card d-inline-block text-start">
+  <div class="card d-inline-block text-start">
 
-      <div class="card-header">
-        <h3 class="card-title">Profile</h3>
-      </div>
+    <div class="card-header">
+      <h3 class="card-title">Profile</h3>
+    </div>
 
-      <div class="card-body">
+    <div class="card-body">
 
-        <h2>{{ fullname }}</h2>
-        <h4 class="text-secondary">{{ email }}</h4>
-        <hr class="text-secondary"/>
+      <h2>{{ fullname }}</h2>
+      <h4 class="text-secondary">{{ email }}</h4>
+      <hr class="text-secondary"/>
 
-        <ChangePassword v-if="changingPassword" @close="changingPassword = false" />
+      <ChangePassword v-if="changingPassword" @close="changingPassword = false"/>
 
-        <button v-else class="btn btn-primary" @click="changingPassword = true">Change Password</button>
-
-      </div>
+      <button v-else class="btn btn-primary" @click="changingPassword = true">Change Password</button>
 
     </div>
 
-  </Center>
+  </div>
+
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 import Center from '@/components/misc/Center.vue'
 import ChangePassword from '@/components/profile/ChangePassword.vue';
@@ -37,14 +35,14 @@ export default defineComponent({
     ChangePassword
   },
   created() {
-    if(!this.$store.state.auth.isLoggedIn) {
+    if (!this.$store.state.auth.isLoggedIn) {
       this.$router.push('/login');
     }
   },
   data() {
     return {
       fullname: this.$store.getters.userFullname,
-      email: this.$store.getters.userEmail, 
+      email: this.$store.getters.userEmail,
       changingPassword: false
     }
   }
@@ -52,7 +50,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .card {
-    min-width: 400px;
-  }
+.card {
+  min-width: 400px;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover align-middle">
+  <table class="table table-hover align-middle" aria-describedby="table for store">
     <thead>
       <tr>
         <th scope="col">Название</th>
