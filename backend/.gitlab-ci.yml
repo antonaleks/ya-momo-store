@@ -52,7 +52,7 @@ gosec-sast:
   artifacts:
     when: always
     paths:
-      - 'gl-sast-report.json'
+      - ${CI_PROJECT_DIR}/backend/gl-sast-report.json
     reports:
       sast: gl-sast-report.json
 
