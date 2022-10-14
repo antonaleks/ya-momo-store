@@ -24,7 +24,7 @@ variables:
 
 format:
   stage: test
-  image: golang:1.13
+  image: golang:1.17
   extends: .go-cache
   script:
     - cd backend
@@ -33,7 +33,7 @@ format:
 
 compile:
   stage: build
-  image: golang:1.13
+  image: golang:1.17
   extends: .go-cache
   script:
     - cd backend
