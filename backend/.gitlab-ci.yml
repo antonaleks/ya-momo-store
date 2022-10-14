@@ -37,11 +37,15 @@ compile:
   extends: .go-cache
   script:
     - cd backend
-    - mkdir -p $CI_PROJECT_DIR/backend/build/momo-store-${VERSION}
-    - go build -o $CI_PROJECT_DIR/backend/build/momo-store-${VERSION} ./...
+    - mkdir -p $CI_PROJECT_DIR/momo-store-${VERSION}/go-build
+    - go build -o $CI_PROJECT_DIR/momo-store-${VERSION}/go-build ./...
   artifacts:
     paths:
-      - $CI_PROJECT_DIR/backend/build/momo-store-${VERSION}
+      - $CI_PROJECT_DIR/momo-store-${VERSION}/go-build
+
+gosec-sast:
+  stage: test
+  extends: .go-cache
 
 sonarqube-backend-sast:
   stage: test
