@@ -12,9 +12,9 @@ import (
 
 	"go.uber.org/zap"
 
-	"gitlab.praktikum-services.ru/Stasyan/momo-store/cmd/api/app"
-	"gitlab.praktikum-services.ru/Stasyan/momo-store/cmd/api/dependencies"
-	"gitlab.praktikum-services.ru/Stasyan/momo-store/internal/logger"
+	"gitlab.praktikum-services.ru/anton-alekseyev/momo-store/cmd/api/app"
+	"gitlab.praktikum-services.ru/anton-alekseyev/momo-store/cmd/api/dependencies"
+	"gitlab.praktikum-services.ru/anton-alekseyev/momo-store/internal/logger"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 }
 
 func run() error {
-	lis, err := net.Listen("tcp", ":8081")
+	lis, err := net.Listen("tcp", ":" + os.Getenv("BACKEND_PORT"))
 	if err != nil {
 		return err
 	}
@@ -54,7 +54,7 @@ func run() error {
 
 	errChan := make(chan error, 1)
 	go func() {
-		logger.Log.Info("starting HTTP server", zap.String("address", ":8081"))
+		logger.Log.Info("starting HTTP server", zap.String("address", os.Getenv("BACKEND_PORT")))
 		if err := srv.Serve(lis); err != nil {
 			errChan <- fmt.Errorf("error serving HTTP: %w", err)
 		}

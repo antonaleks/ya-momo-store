@@ -8,8 +8,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	dumplings "gitlab.praktikum-services.ru/Stasyan/momo-store/internal/store/dumplings"
 	gomock "github.com/golang/mock/gomock"
+	dumplings "gitlab.praktikum-services.ru/anton-alekseyev/momo-store/internal/store/dumplings"
 )
 
 // MockStore is a mock of Store interface.

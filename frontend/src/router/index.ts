@@ -4,10 +4,6 @@ import Catalog from '../views/Catalog.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/catalog'
-  },
-  {
-    path: '/catalog',
     name: 'Catalog',
     component: Catalog
   },
