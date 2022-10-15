@@ -11,9 +11,6 @@ RUN npm run build
 ### STAGE 2: Production Environment ###
 FROM nginx:stable-alpine
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
-RUN touch /usr/share/nginx/html/metrics.html
 COPY .nginx/default.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
-ENV API_HOST=localhost
-ENV API_PORT=8081
 EXPOSE 80
