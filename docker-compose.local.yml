@@ -1,0 +1,33 @@
+version: "3.4"
+services:
+  backend:
+    image: goapi
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    container_name: back_c
+    restart: on-failure
+    environment:
+      BACKEND_PORT: 8080
+    networks:
+      - momo-store-compose
+
+  frontend:
+    image: front
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      args:
+        VUE_APP_API_URL: /rest
+    container_name: front_c
+    restart: on-failure
+    ports:
+      - "80:80"
+    environment:
+      API_HOST: "backend"
+      API_PORT: "8080"
+    networks:
+      - momo-store-compose
+
+networks:
+  momo-store-compose:
