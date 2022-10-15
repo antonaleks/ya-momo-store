@@ -16,7 +16,7 @@
         :cartItem="cartItem"
       />
       <tr v-if="!$store.getters.cartAsArray.length">
-        <td colspan="5" class="text-center">Корзина пуста, <router-link to="/catalog">выберите пельмешки в каталоге</router-link></td>
+        <td colspan="5" class="text-center">Корзина пуста, <router-link to="/">выберите пельмешки в каталоге</router-link></td>
       </tr>
     </tbody>
   </table>
