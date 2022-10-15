@@ -1,6 +1,7 @@
 ### STAGE 1: Biuld Environment ###
 FROM node:lts-alpine as builder
-ENV VUE_APP_API_URL=http://0.0.0.0/rest/
+ARG VUE_APP_API_URL
+ENV VUE_APP_API_URL $VUE_APP_API_URL
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
