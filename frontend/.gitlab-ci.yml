@@ -30,6 +30,22 @@ build-code-job:
     paths:
       - $CI_PROJECT_DIR/momo-store-${VERSION}/public_html
 
+build-docker-kaniko:
+  stage: build
+  cache: [ ]
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [ "" ]
+  extends: .docker-registry-auth
+  script:
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/frontend"
+      --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
+      --cache-copy-layers
+      --destination "${CI_REGISTRY_IMAGE}/$DOCKER_FRONTEND_NAME:${VERSION}"
+      --cache=true
+
 sonarqube-frontend-sast:
   stage: test
   image: sonarsource/sonar-scanner-cli:latest
@@ -51,3 +67,16 @@ upload-release:
     - tar czvf momo-store-${VERSION}.tar.gz momo-store-${VERSION}/public_html/dist
     - >
       curl -v -u "${NEXUS_REPO_USER}:$(echo $NEXUS_REPO_PASS | base64 -d)" --upload-file momo-store-${VERSION}.tar.gz ${NEXUS_REPO_FRONTEND_URL}/momo-store-frontend/momo-store/$VERSION/momo-store-front-$VERSION.tar.gz
+
+upload-docker-latest:
+  variables:
+    GIT_STRATEGY: none
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: [ "" ]
+  cache: [ ]
+  stage: release
+  before_script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - crane tag $CI_REGISTRY_IMAGE/$DOCKER_FRONTEND_NAME:$VERSION latest
