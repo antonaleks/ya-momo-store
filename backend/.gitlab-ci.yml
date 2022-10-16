@@ -145,7 +145,8 @@ deploy-helm-production:
     - helm repo update
     - >
       helm upgrade --install momo-store-$ENVIRONMENT_TYPE \
-        --set global.environment=$ENVIRONMENT_TYPE
+        --set global.environment=$ENVIRONMENT_TYPE \
+        --set global.backendPort=$BACKEND_PORT \
         --set secrets.dockerConfigJson=${DOCKER_CONFIG_JSON} \
         --set backend.image.tag=$VERSION \
         --atomic --timeout 15m \
