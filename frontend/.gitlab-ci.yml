@@ -92,7 +92,7 @@ deploy-helm-staging:
     MOMO_STORE_URL: $MOMO_STORE_URL_STAGING
     ENVIRONMENT_TYPE: staging
   environment:
-    name: momo-staging
+    name: momo-frontend-staging
     url: https://$MOMO_STORE_URL_STAGING
 
 deploy-helm-production:
@@ -106,7 +106,7 @@ deploy-helm-production:
     MOMO_STORE_URL: $MOMO_STORE_URL_PRODUCTION
     ENVIRONMENT_TYPE: production
   environment:
-    name: momo-production
+    name: momo-frontend-production
     url: https://$MOMO_STORE_URL_PRODUCTION
 
 .deploy-helm:
