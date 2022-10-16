@@ -2,7 +2,8 @@ stages:
   - build
   - test
   - release
-  - deploy
+  - deploy-staging
+  - deploy-production
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -83,3 +84,50 @@ upload-docker-latest:
     - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - crane tag $CI_REGISTRY_IMAGE/$DOCKER_FRONTEND_NAME:$VERSION latest
+
+deploy-helm-staging:
+  stage: deploy-staging
+  extends: .deploy-helm
+  variables:
+    MOMO_STORE_URL: $MOMO_STORE_URL_STAGING
+    ENVIRONMENT_TYPE: staging
+  environment:
+    name: momo-staging
+    url: https://$MOMO_STORE_URL_STAGING
+
+deploy-helm-production:
+  stage: deploy-production
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
+      when: manual
+    - when: never
+  extends: .deploy-helm
+  variables:
+    MOMO_STORE_URL: $MOMO_STORE_URL_PRODUCTION
+    ENVIRONMENT_TYPE: production
+  environment:
+    name: momo-production
+    url: https://$MOMO_STORE_URL_PRODUCTION
+
+.deploy-helm:
+  image: lwolf/helm-kubectl-docker:v1.21.1-v3.6.0
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+    - echo -n $KUBE_CA | base64 -d > $HOME/.kube/ca.pem
+  script:
+    - helm repo add nexus $NEXUS_REPO_HELM_URL --username ${NEXUS_REPO_USER} --password $(echo $NEXUS_REPO_PASS | base64 -d)
+    - helm repo update
+    - >
+      helm upgrade --install momo-store-$ENVIRONMENT_TYPE \
+        --set global.environment=$ENVIRONMENT_TYPE \
+        --set frontend.fqdn=${MOMO_STORE_URL} \
+        --set secrets.dockerConfigJson=${DOCKER_CONFIG_JSON} \
+        --set frontend.image.tag=${FRONTEND_DOCKER_TAG} \
+        --set frontend.letsencryptEmail=${LETSENCRYPT_EMAIL} \
+        --atomic --timeout 15m \
+        --namespace momo-store-$ENVIRONMENT_TYPE \
+        --reuse-values \
+          nexus/momo-store
+  after_script:
+    - rm $HOME/.kube/config
