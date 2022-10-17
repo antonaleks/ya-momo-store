@@ -123,7 +123,7 @@ deploy-helm-production:
         --set global.environment=$ENVIRONMENT_TYPE \
         --set frontend.fqdn=${MOMO_STORE_URL} \
         --set secrets.dockerConfigJson=${DOCKER_CONFIG_JSON} \
-        --set frontend.image.tag=${FRONTEND_DOCKER_TAG} \
+        --set frontend.image.tag=$VERSION \
         --set frontend.letsencryptEmail=${LETSENCRYPT_EMAIL} \
         --atomic --timeout 15m \
         --namespace momo-store-$ENVIRONMENT_TYPE \
