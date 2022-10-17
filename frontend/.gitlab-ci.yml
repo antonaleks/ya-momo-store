@@ -46,6 +46,7 @@ build-docker-kaniko:
       --context "${CI_PROJECT_DIR}/frontend"
       --dockerfile "${CI_PROJECT_DIR}/frontend/Dockerfile"
       --build-arg VUE_APP_API_URL=/rest
+      --build-arg VUE_APP_VERSION=$VERSION
       --cache-copy-layers
       --destination "${CI_REGISTRY_IMAGE}/$DOCKER_FRONTEND_NAME:${VERSION}"
       --cache=true
