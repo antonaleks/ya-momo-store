@@ -19,6 +19,7 @@ services:
       dockerfile: Dockerfile
       args:
         VUE_APP_API_URL: /rest
+        VUE_APP_VERSION: 1.0.1
     container_name: front_c
     restart: on-failure
     ports:
