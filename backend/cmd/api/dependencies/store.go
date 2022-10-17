@@ -18,7 +18,7 @@ func NewFakeDumplingsStore() (dumplings.Store, error) {
 		{
 			ID:          2,
 			Name:        "Хинкали",
-			Description: "Со свининой",
+			Description: "Со свининой и перцем",
 			Price:       3.50,
 			Image:       "https://storage.yandexcloud.net/s3-momo-store-bucket/50b583271fa0409fb3d8ffc5872e99bb.jpg",
 		},
