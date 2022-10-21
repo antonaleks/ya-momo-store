@@ -10,7 +10,7 @@ func NewFakeDumplingsStore() (dumplings.Store, error) {
 	packs := []dumplings.Product{
 		{
 			ID:          1,
-			Name:        "Пельмешки",
+			Name:        "Вкусные пельмешки",
 			Description: "С говядиной",
 			Price:       5.00,
 			Image:       "https://storage.yandexcloud.net/s3-momo-store-bucket/8dee5a92281746aa887d6f19cf9fdcc7.jpg",
